@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://vodmasterdata.herokuapp.com//"
+      "url": "https://vodmasterdata.herokuapp.com/"
     }
   ],
   "paths": {

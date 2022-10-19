@@ -4,7 +4,7 @@ const outputFile = './swagger_output.json'
 const endpointsFiles = ['./server.js']  
 
 const doc = {
-    host: 'vodmasterdata.herokuapp.com/',
+    host: 'vodmasterdata.herokuapp.com',
     schemes: ['https'],
     securityDefinitions: {
         bearerAuth: {
