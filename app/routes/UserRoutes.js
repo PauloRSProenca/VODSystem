@@ -66,7 +66,7 @@ router.post('/signin', function (req , res) {
         if (theUser===null){
             res.status(401).send([]);     
         }else{
-            const jwtBearerToken = jwt.sign({email:req.body.email, role:theUser.role}, process.env.SECRET,  {expiresIn: 1801});                
+            const jwtBearerToken = jwt.sign({email:req.body.email, role:theUser.role}, process.env.SECRET,  {expiresIn: 1800});                
             res.status(201).send({
                     role: theUser.role,
                     token: jwtBearerToken
