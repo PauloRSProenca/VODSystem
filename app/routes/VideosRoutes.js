@@ -5,7 +5,7 @@ var videoModel = require('../models/video');
 
 var router = express.Router();
 
-//POST: /api/video)
+//POST: /api/video
 router.post('/', verifyToken, function (req , res) {
     /*
     #swagger.parameters['newvideo'] = {
@@ -51,23 +51,17 @@ router.post('/', verifyToken, function (req , res) {
 });
 
 // GET: /api/video
-router.get('/', verifyToken, function (req, res) {
+router.get('/', function (req, res) {
     /* 
     #swagger.responses[200] = {
         schema: [{ $ref: '#/definitions/Video' }]
     }
     */
-    hasRole(req.role, 'client', function (decision) {
-        if (!decision) 
-            return res.status(403).send({ msg: `User ${req.body.email} have no authorization.` });
-        else{
-            videoModel.find(function (err, existingVideos) {
-                if (err)
-                    res.send(err);
-                res.status(200).send(existingVideos);
-            })
-        }
-    });
+    videoModel.find(function (err, existingVideos) {
+        if (err)
+            res.send(err);
+        res.status(200).send(existingVideos);
+    })
 });
 
 // GET: /api/video/63501e2b9ef9def04fddcb4c
