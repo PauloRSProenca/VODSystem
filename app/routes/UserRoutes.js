@@ -1,5 +1,7 @@
 var express = require('express'); 
 
+const { celebrate, Joi, errors, Segments } = require('celebrate'); 
+
 var UserModel = require('../models/user');
 var VerifyToken = require('../../verifyToken');
 
@@ -44,35 +46,42 @@ router.post('/signup', function (req , res) {
 });
 
 
-router.post('/signin', function (req , res) {
-    /*
-    #swagger.parameters['user'] = {
-        in: 'body',
-        type: 'obj',
-        schema: {             
-            $email: 'user@fake-mail.com',
-            $password: 'password1',
+router.post('/signin', 
+    celebrate({
+        [Segments.BODY]: Joi.object().keys({ 
+            email: Joi.string().required(), 
+            password: Joi.string().required() 
+        })        
+    }),
+    function (req , res) {
+        /*
+        #swagger.parameters['user'] = {
+            in: 'body',
+            type: 'obj',
+            schema: {             
+                $email: 'user@fake-mail.com',
+                $password: 'password1',
+            }
         }
-    }
-    #swagger.responses[200] = {
-        role: "client",
-        token: "eyJhbGciOi.NjIxMDc2MX0.o3CL-Sf8gh6wBj0"
-    }
-    */
-   
-    UserModel.findOne(req.body, function(err, theUser){
-        if(err)
-            res.send(err);
-        if (theUser===null){
-            res.status(401).send([]);     
-        }else{
-            const jwtBearerToken = jwt.sign({email:req.body.email, role:theUser.role}, process.env.SECRET,  {expiresIn: 1800});                
-            res.status(201).send({
-                    role: theUser.role,
-                    token: jwtBearerToken
-            }); 
+        #swagger.responses[200] = {
+            role: "client",
+            token: "eyJhbGciOi.NjIxMDc2MX0.o3CL-Sf8gh6wBj0"
         }
-    })
+        */
+  
+        UserModel.findOne(req.body, function(err, theUser){
+            if(err)
+                res.send(err);
+            if (theUser===null){
+                res.status(401).send([]);     
+            }else{
+                const jwtBearerToken = jwt.sign({email:req.body.email, role:theUser.role}, process.env.SECRET,  {expiresIn: 1800});                
+                res.status(201).send({
+                        role: theUser.role,
+                        token: jwtBearerToken
+                }); 
+            }
+        })
 
 });
 
@@ -109,5 +118,8 @@ router.get('/', VerifyToken, function (req, res) {
 function hasRole(userRole, role, func){
     func(userRole === role);
 }
+
+// celebrate error handler
+router.use(errors());
 
 module.exports = router;
