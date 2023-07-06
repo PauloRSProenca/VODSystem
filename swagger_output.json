@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://vodmasterdata.herokuapp.com/"
+      "url": "https://vodsystem.onrender.com//"
     }
   ],
   "paths": {
@@ -198,15 +198,7 @@
           "Videos"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -234,12 +226,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
         },
         "security": [
