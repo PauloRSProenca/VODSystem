@@ -4,7 +4,7 @@ const outputFile = './swagger_output.json'
 const endpointsFiles = ['./server.js']  
 
 const doc = {
-    host: 'vodsystem.onrender.com/',
+    host: 'vodsystem.onrender.com',
     schemes: ['https'],
     securityDefinitions: {
         bearerAuth: {

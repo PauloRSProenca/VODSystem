@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://vodsystem.onrender.com//"
+      "url": "https://vodsystem.onrender.com/"
     }
   ],
   "paths": {
