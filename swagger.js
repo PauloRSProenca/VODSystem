@@ -28,7 +28,7 @@ const doc = {
             $poster:"https://m.media-amazon.com/images/I/71TZ8BmoZqL._AC_SY879_.jpg",
             $streamURL:"https://www.youtube.com/watch?v=V75dMMIW2B4"
         },
-        video2: {
+        Video2: {
             id: '634095f0ea85138ff2010b65',
             $title:"The Lord of the Rings: The Fellowship of the Ring",
             $synopsis:"A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
@@ -39,7 +39,7 @@ const doc = {
             $streamURL:"https://www.youtube.com/watch?v=V75dMMIW2B4",
             rate: []
         },        
-        video3: {
+        Video3: {
             id: '634095f0ea85138ff2010b65',
             $title:"The Lord of the Rings: The Fellowship of the Ring",
             $synopsis:"A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",

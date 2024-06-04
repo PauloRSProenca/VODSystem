@@ -522,7 +522,7 @@
           "name": "Video1"
         }
       },
-      "video2": {
+      "Video2": {
         "type": "object",
         "properties": {
           "id": {
@@ -580,10 +580,10 @@
           "streamURL"
         ],
         "xml": {
-          "name": "video2"
+          "name": "Video2"
         }
       },
-      "video3": {
+      "Video3": {
         "type": "object",
         "properties": {
           "id": {
@@ -648,7 +648,7 @@
           "streamURL"
         ],
         "xml": {
-          "name": "video3"
+          "name": "Video3"
         }
       },
       "Category": {
