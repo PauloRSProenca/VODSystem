@@ -13,8 +13,8 @@
     "swagger-autogen": "^2.22.0",
     "swagger-ui-express": "^4.5.0"
   },
-  "name": "heroesbackend",
-  "version": "1.0.0",
+  "name": "VODbackend",
+  "version": "2.0.0",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
