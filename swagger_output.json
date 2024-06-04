@@ -12,12 +12,40 @@
   ],
   "paths": {
     "/api/category/": {
-      "get": {
+      "post": {
         "tags": [
           "Categories"
         ],
         "description": "",
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "",
         "responses": {
           "200": {
             "description": "OK",
@@ -55,68 +83,7 @@
           "Videos"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "newvideo",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "The Lord of the Rings: The Fellowship of the Ring"
-                },
-                "synopsis": {
-                  "type": "string",
-                  "example": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron."
-                },
-                "director": {
-                  "type": "string",
-                  "example": "Peter Jackson"
-                },
-                "cast": {
-                  "type": "array",
-                  "example": [
-                    "Elijah Wood",
-                    "Ian McKellen",
-                    "Orlando Bloom"
-                  ],
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "category": {
-                  "type": "string",
-                  "example": "6350106165ef3bb9384e0afe"
-                },
-                "poster": {
-                  "type": "string",
-                  "example": "https://m.media-amazon.com/images/I/71TZ8BmoZqL._AC_SY879_.jpg"
-                },
-                "streamURL": {
-                  "type": "string",
-                  "example": "https://www.youtube.com/watch?v=V75dMMIW2B4"
-                }
-              },
-              "required": [
-                "title",
-                "synopsis",
-                "director",
-                "cast",
-                "category",
-                "poster",
-                "streamURL"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -148,9 +115,6 @@
           "201": {
             "description": "Created"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "403": {
             "description": "Forbidden"
           }
@@ -166,6 +130,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "category": {
+                    "example": "any"
+                  },
                   "title": {
                     "example": "any"
                   },
@@ -176,9 +143,6 @@
                     "example": "any"
                   },
                   "cast": {
-                    "example": "any"
-                  },
-                  "category": {
                     "example": "any"
                   },
                   "poster": {
@@ -198,7 +162,6 @@
           "Videos"
         ],
         "description": "",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -351,22 +314,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "Video",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "rate": {
-                  "type": "number",
-                  "example": 3
-                }
-              },
-              "required": [
-                "rate"
-              ]
-            }
           }
         ],
         "responses": {
@@ -422,34 +369,7 @@
           "Users"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "newuser",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Alice"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "user@fake-mail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "password1"
-                }
-              },
-              "required": [
-                "name",
-                "email",
-                "password"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "msg": "User user@fake-mail.com successfully signedup.",
@@ -490,40 +410,12 @@
           "Users"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "user@fake-mail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "password1"
-                }
-              },
-              "required": [
-                "email",
-                "password"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "OK",
             "role": "client",
-            "token": "eyJhbGciOi.NjIxMDc2MX0.o3CL-Sf8gh6wBj0"
-          },
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
+            "token": "eyJhbGciOi.NjIxMDc2MX0.o3CL-Sf8gh6wBj0",
+            "description": "OK"
           }
         },
         "requestBody": {
