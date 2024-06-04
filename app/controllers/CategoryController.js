@@ -1,19 +1,33 @@
 const app = require('express');
 const categoryModel = require('../models/category');
 
-CreateCategory = (req,res,next) => {
+CreateCategory = (req, res, next) => {
     /*
-    #swagger.parameters['newcategory'] = {
-        in: 'body',
-        type: 'obj',
-        schema: { $ref: '#/definitions/Category' }
-    }
+    #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    $ref: "#/definitions/Category"
+                }  
+            }
+        }
+    }  
+    
+    #swagger.responses[201] = {
+        description: "Created",
+        content: {
+            "application/json": {
+                schema:[ { $ref: "#/definitions/Category" } ]
+            }           
+        }
+    } 
     */
-    var newEntity = new categoryModel();      
+    var newEntity = new categoryModel();
 
     newEntity.name = req.body.name;
-    
-    newEntity.save(function(err) {
+
+    newEntity.save(function (err) {
         if (err)
             res.send(err);
         res.status(201).send({ msg: 'Entity created successfully.' });
@@ -33,7 +47,7 @@ GetAllCategories = (req, res, next) => {
         if (existingEntities.length != 0)
             for (let c of existingEntities)
                 allCategories.push(
-                    {'name':c.name}
+                    { 'name': c.name }
                 );
 
         res.status(200).send(allCategories);
@@ -41,6 +55,6 @@ GetAllCategories = (req, res, next) => {
 }
 
 module.exports = {
-    CreateCategory, 
+    CreateCategory,
     GetAllCategories
 }

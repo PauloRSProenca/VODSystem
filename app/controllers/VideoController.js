@@ -4,18 +4,27 @@ const categoryModel = require('../models/category');
 
 CreateVideo = (req, res, next) => {
     /*
-   #swagger.parameters['newvideo'] = {
-       in: 'body',
-       type: 'obj',
-       schema:{ $ref: '#/definitions/Video1' }
+    #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    $ref: "#/definitions/Video1"
+                }  
+            }
+        }
    }
    #swagger.responses[200] = {
        schema:{ $ref: '#/definitions/Video2' }
    }
-
-   #swagger.responses[403] = {
-       "msg": "User jsmith@fake-mail.com have no authorization."
-   }
+    #swagger.responses[403] = {
+        description: "Forbidden",
+        content: {
+            "application/json": {
+                schema:{ $ref: "#/definitions/UnAuthMsg" }
+            }           
+        }
+    } 
    */
 
     hasRole(req.role, 'manager', function (decision) {
@@ -47,8 +56,13 @@ CreateVideo = (req, res, next) => {
 GetAllVideos = (req, res, next) => {
     /* 
     #swagger.responses[200] = {
-        schema: [{ $ref: '#/definitions/Video3' }]
-    }
+        description: "OK",
+        content: {
+            "application/json": {
+                schema:{ $ref: "#/definitions/Video4" }
+            }           
+        }
+    } 
     */
     videoModel.find(async function (err, existingVideos) {
         if (err)
@@ -64,16 +78,21 @@ GetAllVideos = (req, res, next) => {
 
 GetVideoById = (req, res, next) => {
     /*  
-   #swagger.parameters['id'] = {
+    #swagger.parameters['id'] = {
        in: 'path',
        type: 'string'
-   } 
-   #swagger.responses[200] = {
+    } 
+    #swagger.responses[200] = {
        schema: { $ref: '#/definitions/Video3' }
-   }
-   #swagger.responses[403] = {
-       "msg": "User jsmith@fake-mail.com have no authorization."
-   }
+    }
+    #swagger.responses[403] = {
+        description: "Forbidden",
+        content: {
+            "application/json": {
+                schema:{ $ref: "#/definitions/UnAuthMsg" }
+            }           
+        }
+    } 
    */
 
     hasRole(req.role, 'client', function (decision) {
@@ -100,11 +119,16 @@ DeleteVideoById = (req, res, next) => {
         type: 'string'
     } 
     #swagger.responses[200] = {
-       "msg": "Entity 634095f0ea85138ff2010b65 deleted successfully.."
-    }  
+       schema: { $ref: '#/definitions/DeleteVideo1' }
+    } 
     #swagger.responses[403] = {
-       "msg": "User jsmith@fake-mail.com have no authorization."
-    }
+        description: "Forbidden",
+        content: {
+            "application/json": {
+                schema:{ $ref: "#/definitions/UnAuthMsg" }
+            }           
+        }
+    } 
     */
     hasRole(req.role, 'manager', function (decision) {
         if (!decision)
@@ -125,19 +149,27 @@ RateVideoById = (req, res, next) => {
         in: 'path',
         type: 'string'
     }  
-    #swagger.parameters['Video'] = {
-        in: 'body',
-        type: 'obj',
-        schema: {
-            $rate: 3
+    #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    $ref: "#/definitions/Rate"
+                }  
+            }
         }
     }
     #swagger.responses[200] = {
         schema: { $ref: '#/definitions/Video3' }
     }
-     #swagger.responses[403] = {
-       "msg": "User jsmith@fake-mail.com have no authorization."
-    }
+    #swagger.responses[403] = {
+        description: "Forbidden",
+        content: {
+            "application/json": {
+                schema:{ $ref: "#/definitions/UnAuthMsg" }
+            }           
+        }
+    } 
     */
     hasRole(req.role, 'client', function (decision) {
         if (!decision)

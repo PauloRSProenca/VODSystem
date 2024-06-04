@@ -54,7 +54,6 @@
           "Videos"
         ],
         "description": "",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -76,7 +75,13 @@
           },
           "403": {
             "description": "Forbidden",
-            "msg": "User jsmith@fake-mail.com have no authorization."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthMsg"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -85,33 +90,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "category": {
-                    "example": "any"
-                  },
-                  "title": {
-                    "example": "any"
-                  },
-                  "synopsis": {
-                    "example": "any"
-                  },
-                  "director": {
-                    "example": "any"
-                  },
-                  "cast": {
-                    "example": "any"
-                  },
-                  "poster": {
-                    "example": "any"
-                  },
-                  "streamURL": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/Video1"
               }
             }
           }
@@ -128,24 +111,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Video3"
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Video3"
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+                  "$ref": "#/components/schemas/Video4"
                 }
               }
             }
@@ -205,7 +171,13 @@
           },
           "403": {
             "description": "Forbidden",
-            "msg": "User jsmith@fake-mail.com have no authorization."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthMsg"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -239,14 +211,31 @@
         "responses": {
           "200": {
             "description": "OK",
-            "msg": "Entity 634095f0ea85138ff2010b65 deleted successfully.."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteVideo1"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteVideo1"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden",
-            "msg": "User jsmith@fake-mail.com have no authorization."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthMsg"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -303,7 +292,13 @@
           },
           "403": {
             "description": "Forbidden",
-            "msg": "User jsmith@fake-mail.com have no authorization."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthMsg"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -312,15 +307,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "rate": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/Rate"
               }
             }
           }
@@ -334,44 +325,26 @@
         ],
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkSignUp"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden",
-            "msg": "User jsmith@fake-mail.com have no authorization."
           }
         },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/User1"
               }
             }
           }
@@ -384,24 +357,24 @@
           "Users"
         ],
         "description": "",
-        "parameters": [],
         "responses": {
-          "200": {
-            "role": "client",
-            "token": "eyJhbGciOi.NjIxMDc2MX0.o3CL-Sf8gh6wBj0",
-            "description": "OK"
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulSignIn"
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/User2"
               }
             }
           }
@@ -425,14 +398,27 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User3"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden",
-            "msg": "User jsmith@fake-mail.com have no authorization."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthMsg"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -445,7 +431,7 @@
   },
   "components": {
     "schemas": {
-      "User": {
+      "User1": {
         "type": "object",
         "properties": {
           "name": {
@@ -467,7 +453,130 @@
           "password"
         ],
         "xml": {
-          "name": "User"
+          "name": "User1"
+        }
+      },
+      "User2": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "jsmith@fake-mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "thisisastrongpassword"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ],
+        "xml": {
+          "name": "User2"
+        }
+      },
+      "User3": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "63503ad1884c9bbb94551374"
+            },
+            "name": {
+              "type": "string",
+              "example": "John Smith"
+            },
+            "email": {
+              "type": "string",
+              "example": "jsmith@fake-mail.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "thisisastrongpassword"
+            },
+            "role": {
+              "type": "string",
+              "example": "client"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "email",
+            "password",
+            "role"
+          ]
+        },
+        "xml": {
+          "name": "User3"
+        }
+      },
+      "OkSignUp": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "User jsmith@fake-mail.com successfully signedup."
+          }
+        },
+        "required": [
+          "msg"
+        ],
+        "xml": {
+          "name": "OkSignUp"
+        }
+      },
+      "UnAuthMsg": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "User jsmith@fake-mail.com have no authorization."
+          }
+        },
+        "required": [
+          "msg"
+        ],
+        "xml": {
+          "name": "UnAuthMsg"
+        }
+      },
+      "DeleteVideo": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "Entity 634095f0ea85138ff2010b65 deleted successfully."
+          }
+        },
+        "required": [
+          "msg"
+        ],
+        "xml": {
+          "name": "DeleteVideo"
+        }
+      },
+      "SuccessfulSignIn": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "example": "client"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOi.NjIxMDc2MX0.o3CL-Sf8gh6wBj0"
+          }
+        },
+        "required": [
+          "role",
+          "token"
+        ],
+        "xml": {
+          "name": "SuccessfulSignIn"
         }
       },
       "Video1": {
@@ -651,6 +760,77 @@
           "name": "Video3"
         }
       },
+      "Video4": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "634095f0ea85138ff2010b65"
+            },
+            "title": {
+              "type": "string",
+              "example": "The Lord of the Rings: The Fellowship of the Ring"
+            },
+            "synopsis": {
+              "type": "string",
+              "example": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron."
+            },
+            "director": {
+              "type": "string",
+              "example": "Peter Jackson"
+            },
+            "cast": {
+              "type": "array",
+              "example": [
+                "Elijah Wood",
+                "Ian McKellen",
+                "Orlando Bloom"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "category": {
+              "type": "string",
+              "example": "Sci-fi & Fantasy"
+            },
+            "poster": {
+              "type": "string",
+              "example": "https://m.media-amazon.com/images/I/71TZ8BmoZqL._AC_SY879_.jpg"
+            },
+            "streamURL": {
+              "type": "string",
+              "example": "https://www.youtube.com/watch?v=V75dMMIW2B4"
+            },
+            "rate": {
+              "type": "array",
+              "example": [
+                1,
+                3,
+                5,
+                3
+              ],
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "required": [
+            "title",
+            "synopsis",
+            "director",
+            "cast",
+            "category",
+            "poster",
+            "streamURL"
+          ]
+        },
+        "xml": {
+          "name": "Video4"
+        }
+      },
       "Category": {
         "type": "object",
         "properties": {
@@ -664,6 +844,21 @@
         ],
         "xml": {
           "name": "Category"
+        }
+      },
+      "Rate": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "number",
+            "example": 3
+          }
+        },
+        "required": [
+          "rate"
+        ],
+        "xml": {
+          "name": "Rate"
         }
       }
     },
