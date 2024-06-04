@@ -12,35 +12,6 @@
   ],
   "paths": {
     "/api/category/": {
-      "post": {
-        "tags": [
-          "Categories"
-        ],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "201": {
-            "description": "Created"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "get": {
         "tags": [
           "Categories"
@@ -90,24 +61,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Video"
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+                  "$ref": "#/components/schemas/Video2"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Video"
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+                  "$ref": "#/components/schemas/Video2"
                 }
               }
             }
@@ -116,7 +75,8 @@
             "description": "Created"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "msg": "User jsmith@fake-mail.com have no authorization."
           }
         },
         "security": [
@@ -170,7 +130,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Video"
+                    "$ref": "#/components/schemas/Video3"
                   },
                   "xml": {
                     "name": "main"
@@ -181,7 +141,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Video"
+                    "$ref": "#/components/schemas/Video3"
                   },
                   "xml": {
                     "name": "main"
@@ -227,12 +187,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Video"
+                  "$ref": "#/components/schemas/Video3"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Video"
+                  "$ref": "#/components/schemas/Video3"
                 }
               }
             }
@@ -244,7 +204,8 @@
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "msg": "User jsmith@fake-mail.com have no authorization."
           }
         },
         "security": [
@@ -277,13 +238,15 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "msg": "Entity 634095f0ea85138ff2010b65 deleted successfully.."
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "msg": "User jsmith@fake-mail.com have no authorization."
           }
         },
         "security": [
@@ -322,12 +285,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Video"
+                  "$ref": "#/components/schemas/Video3"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Video"
+                  "$ref": "#/components/schemas/Video3"
                 }
               }
             }
@@ -339,7 +302,8 @@
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "msg": "User jsmith@fake-mail.com have no authorization."
           }
         },
         "security": [
@@ -369,10 +333,8 @@
           "Users"
         ],
         "description": "",
-        "parameters": [],
         "responses": {
           "200": {
-            "msg": "User user@fake-mail.com successfully signedup.",
             "description": "OK"
           },
           "201": {
@@ -380,8 +342,20 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "msg": "User jsmith@fake-mail.com have no authorization."
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -458,7 +432,7 @@
           },
           "403": {
             "description": "Forbidden",
-            "msg": "User user@fake-mail.com have no authorization."
+            "msg": "User jsmith@fake-mail.com have no authorization."
           }
         },
         "security": [
@@ -471,93 +445,84 @@
   },
   "components": {
     "schemas": {
-      "Hero": {
+      "User": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "number",
-            "example": 1
-          },
           "name": {
             "type": "string",
-            "example": "Spiderman"
+            "example": "John Smith"
           },
-          "strength": {
-            "type": "number",
-            "example": 3
+          "email": {
+            "type": "string",
+            "example": "jsmith@fake-mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "thisisastrongpassword"
           }
         },
         "required": [
           "name",
-          "strength"
+          "email",
+          "password"
         ],
         "xml": {
-          "name": "Hero"
+          "name": "User"
         }
       },
-      "Book": {
+      "Video1": {
         "type": "object",
         "properties": {
-          "isbn": {
-            "type": "string",
-            "example": "978-3-16-148410-0"
-          },
           "title": {
             "type": "string",
-            "example": "Frankenstein"
+            "example": "The Lord of the Rings: The Fellowship of the Ring"
           },
-          "author": {
+          "synopsis": {
             "type": "string",
-            "example": "Mary Shelley"
+            "example": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron."
           },
-          "cover": {
+          "director": {
             "type": "string",
-            "example": "http://free-books.org/File:Frankenstein_1818_cover.jpg"
+            "example": "Peter Jackson"
           },
-          "available": {
-            "type": "boolean",
-            "example": true
-          }
-        },
-        "required": [
-          "isbn",
-          "title",
-          "author",
-          "available"
-        ],
-        "xml": {
-          "name": "Book"
-        }
-      },
-      "Product": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "634095f0ea85138ff2010b65"
-          },
-          "name": {
-            "type": "string",
-            "example": "Coca-Cola"
+          "cast": {
+            "type": "array",
+            "example": [
+              "Elijah Wood",
+              "Ian McKellen",
+              "Orlando Bloom"
+            ],
+            "items": {
+              "type": "string"
+            }
           },
           "category": {
             "type": "string",
-            "example": "drinks"
+            "example": "Sci-fi & Fantasy"
           },
-          "price": {
-            "type": "number",
-            "example": 1.14
+          "poster": {
+            "type": "string",
+            "example": "https://m.media-amazon.com/images/I/71TZ8BmoZqL._AC_SY879_.jpg"
+          },
+          "streamURL": {
+            "type": "string",
+            "example": "https://www.youtube.com/watch?v=V75dMMIW2B4"
           }
         },
         "required": [
-          "name",
-          "category"
+          "title",
+          "synopsis",
+          "director",
+          "cast",
+          "category",
+          "poster",
+          "streamURL"
         ],
         "xml": {
-          "name": "Product"
+          "name": "Video1"
         }
       },
-      "Video": {
+      "video2": {
         "type": "object",
         "properties": {
           "id": {
@@ -589,7 +554,68 @@
           },
           "category": {
             "type": "string",
-            "example": "6350106165ef3bb9384e0afe"
+            "example": "Sci-fi & Fantasy"
+          },
+          "poster": {
+            "type": "string",
+            "example": "https://m.media-amazon.com/images/I/71TZ8BmoZqL._AC_SY879_.jpg"
+          },
+          "streamURL": {
+            "type": "string",
+            "example": "https://www.youtube.com/watch?v=V75dMMIW2B4"
+          },
+          "rate": {
+            "type": "array",
+            "example": [],
+            "items": {}
+          }
+        },
+        "required": [
+          "title",
+          "synopsis",
+          "director",
+          "cast",
+          "category",
+          "poster",
+          "streamURL"
+        ],
+        "xml": {
+          "name": "video2"
+        }
+      },
+      "video3": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "634095f0ea85138ff2010b65"
+          },
+          "title": {
+            "type": "string",
+            "example": "The Lord of the Rings: The Fellowship of the Ring"
+          },
+          "synopsis": {
+            "type": "string",
+            "example": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron."
+          },
+          "director": {
+            "type": "string",
+            "example": "Peter Jackson"
+          },
+          "cast": {
+            "type": "array",
+            "example": [
+              "Elijah Wood",
+              "Ian McKellen",
+              "Orlando Bloom"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string",
+            "example": "Sci-fi & Fantasy"
           },
           "poster": {
             "type": "string",
@@ -604,7 +630,8 @@
             "example": [
               1,
               3,
-              5
+              5,
+              3
             ],
             "items": {
               "type": "number"
@@ -621,16 +648,12 @@
           "streamURL"
         ],
         "xml": {
-          "name": "Video"
+          "name": "video3"
         }
       },
       "Category": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "example": "6350106165ef3bb9384e0afe"
-          },
           "name": {
             "type": "string",
             "example": "Romance"

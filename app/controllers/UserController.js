@@ -6,14 +6,11 @@ SignUp = (req, res) => {
     #swagger.parameters['newuser'] = {
         in: 'body',
         type: 'obj',
-        schema: { 
-            $name: 'Alice'  ,          
-            $email: 'user@fake-mail.com',
-            $password: 'password1',
-        }
+        schema: { $ref: '#/definitions/User' 
     }
+
     #swagger.responses[200] = {
-        "msg": "User user@fake-mail.com successfully signedup."
+        "msg": "User jsmith@fake-mail.com successfully signedup."
     }
     */
 
@@ -40,8 +37,8 @@ SignIn = (req, rep) => {
             in: 'body',
             type: 'obj',
             schema: {             
-                $email: 'user@fake-mail.com',
-                $password: 'password1',
+                $email: 'jsmith@fake-mail.com',
+                $password: 'thisisastrongpassword',
             }
         }
         #swagger.responses[200] = {
@@ -73,13 +70,13 @@ GetAllUsers = (req, res) => {
     #swagger.responses[200] = [
     {
         "id": "63503ad1884c9bbb94551374",
-        "name": "George Peter",
-        "email": "user@fake-mail.com",
-        "role": "client",
-        "password": "password1"
+        "name": "John Smith",
+        "email": "jsmith@fake-mail.com",
+        "password": "thisisastrongpassword",
+        "role": "client"
     }]
     #swagger.responses[403] = {
-        msg: "User user@fake-mail.com have no authorization."
+        msg: "User jsmith@fake-mail.com have no authorization."
     }
     */
     hasRole(req.role, 'manager', function (decision) {

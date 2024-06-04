@@ -7,18 +7,14 @@ CreateVideo = (req, res, next) => {
    #swagger.parameters['newvideo'] = {
        in: 'body',
        type: 'obj',
-       schema: {
-           $title:"The Lord of the Rings: The Fellowship of the Ring",
-           $synopsis:"A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
-           $director:"Peter Jackson",
-           $cast:["Elijah Wood", "Ian McKellen", "Orlando Bloom"],
-           $category:"Sci-fi & Fantasy",
-           $poster:"https://m.media-amazon.com/images/I/71TZ8BmoZqL._AC_SY879_.jpg",
-           $streamURL:"https://www.youtube.com/watch?v=V75dMMIW2B4",
-       }
+       schema:{ $ref: '#/definitions/Video1' }
    }
    #swagger.responses[200] = {
-       schema: [{ $ref: '#/definitions/Video' }]
+       schema:{ $ref: '#/definitions/Video2' }
+   }
+
+   #swagger.responses[403] = {
+       "msg": "User jsmith@fake-mail.com have no authorization."
    }
    */
 
@@ -51,7 +47,7 @@ CreateVideo = (req, res, next) => {
 GetAllVideos = (req, res, next) => {
     /* 
     #swagger.responses[200] = {
-        schema: [{ $ref: '#/definitions/Video' }]
+        schema: [{ $ref: '#/definitions/Video3' }]
     }
     */
     videoModel.find(async function (err, existingVideos) {
@@ -73,7 +69,10 @@ GetVideoById = (req, res, next) => {
        type: 'string'
    } 
    #swagger.responses[200] = {
-       schema: { $ref: '#/definitions/Video' }
+       schema: { $ref: '#/definitions/Video3' }
+   }
+   #swagger.responses[403] = {
+       "msg": "User jsmith@fake-mail.com have no authorization."
    }
    */
 
@@ -100,6 +99,12 @@ DeleteVideoById = (req, res, next) => {
         in: 'path',
         type: 'string'
     } 
+    #swagger.responses[200] = {
+       "msg": "Entity 634095f0ea85138ff2010b65 deleted successfully.."
+    }  
+    #swagger.responses[403] = {
+       "msg": "User jsmith@fake-mail.com have no authorization."
+    }
     */
     hasRole(req.role, 'manager', function (decision) {
         if (!decision)
@@ -128,7 +133,10 @@ RateVideoById = (req, res, next) => {
         }
     }
     #swagger.responses[200] = {
-        schema: { $ref: '#/definitions/Video' }
+        schema: { $ref: '#/definitions/Video3' }
+    }
+     #swagger.responses[403] = {
+       "msg": "User jsmith@fake-mail.com have no authorization."
     }
     */
     hasRole(req.role, 'client', function (decision) {

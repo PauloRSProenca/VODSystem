@@ -6,14 +6,14 @@ var categoryController = require('../controllers/CategoryController');
 var router = express.Router();
 
 //POST: /api/category
-router.post('/',
-    celebrate({
-        body: Joi.object({
-            name: Joi.string().required()
-        })
-    }),
-    categoryController.CreateCategory
-);
+// router.post('/',
+//     celebrate({
+//         body: Joi.object({
+//             name: Joi.string().required()
+//         })
+//     }),
+//     categoryController.CreateCategory
+// );
 
 
 // GET: /api/category
