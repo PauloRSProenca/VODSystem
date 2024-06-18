@@ -15,18 +15,21 @@ var cors = require('cors')
 // =============================================================================
 var mongoObj = require('mongoose');
 
-mongoObj.connect(
-    config.database, 
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }
-);
+mongoObj.connect( config.database );
+
+// mongoObj.connect(
+//   config.database, 
+// {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// }
+// );
+
 
 var db = mongoObj.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-    console.log("connected to mongo database");
+    console.log("Connected to mongo database");
 });
 
 mongoObj.Promise = global.Promise;
@@ -36,7 +39,7 @@ mongoObj.Promise = global.Promise;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 5555;        // set our port
+var port = process.env.PORT || 5555;        // set port
 
 // Middleware
 // =============================================================================

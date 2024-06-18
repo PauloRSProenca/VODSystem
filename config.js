@@ -6,3 +6,5 @@ const dbname = "CURSOANGULAR";
 module.exports = {
     'database': 'mongodb+srv://saitama:setembro@thecluster.imfdc.gcp.mongodb.net/CURSOANGULAR?retryWrites=true&w=majority'
 };
+
+
