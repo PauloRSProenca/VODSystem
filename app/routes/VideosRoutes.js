@@ -18,7 +18,8 @@ router.post('/',
             poster: Joi.string().uri().required(),
             streamURL: Joi.string().uri().required()
         })
-    }),
+    }), 
+    verifyToken,
     videoController.CreateVideo
 );
 

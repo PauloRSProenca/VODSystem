@@ -1,4 +1,5 @@
 var express = require('express');
+var jwt = require('jsonwebtoken');
 var videoModel = require('../models/video');
 const categoryModel = require('../models/category');
 
@@ -27,33 +28,36 @@ CreateVideo = (req, res, next) => {
     } 
    */
 
-    hasRole(req.role, 'manager', function (decision) {
+    hasRole(req.role, 'manager', async function (decision) {
         if (!decision)
-            return res.status(403).send({ msg: `User ${req.body.email} have no authorization.` });
+            return res.status(403).send({ msg: `User ${req.email} have no authorization.` });
         else {
             var newEntity = new videoModel();
 
-            const videocat = categoryModel.findOne({ name: req.body.category });
+            const videocat = await categoryModel.findOne({ name: req.body.category }).exec();
 
-            newEntity.title = req.body.title;
-            newEntity.synopsis = req.body.synopsis;
-            newEntity.director = req.body.director;
-            newEntity.cast = req.body.cast;
-            newEntity.category = videocat._id;
-            newEntity.poster = req.body.poster;
-            newEntity.streamURL = req.body.streamURL;
-            newEntity.rate = [];
+            if (videocat === null) {
+                res.status(400).send({ msg: `Category ${req.body.category} doesn't exist.` });
+            }
+            else {
+                newEntity.title = req.body.title;
+                newEntity.synopsis = req.body.synopsis;
+                newEntity.director = req.body.director;
+                newEntity.cast = req.body.cast;
+                newEntity.category = videocat._id;
+                newEntity.poster = req.body.poster;
+                newEntity.streamURL = req.body.streamURL;
+                newEntity.rate = [];
 
-            newEntity.save(function (err) {
-                if (err)
-                    res.send(err);
-                res.status(201).send({ msg: 'Entity created successfully.' });
-            });
+                newEntity.save()
+                    .then(() => res.status(201).send({ msg: `Entity created successfully.` }))
+                    .catch((err) => res.send(err))
+            }
         }
     })
 }
 
-GetAllVideos = (req, res, next) => {
+GetAllVideos = async (req, res, next) => {
     /* 
     #swagger.responses[200] = {
         description: "OK",
@@ -64,16 +68,18 @@ GetAllVideos = (req, res, next) => {
         }
     } 
     */
-    videoModel.find(async function (err, existingVideos) {
-        if (err)
-            res.send(err);
 
+    try {
+        existingVideos = await videoModel.find().exec();
         allVideos = [];
         if (existingVideos.length != 0)
             for (let v of existingVideos)
                 allVideos.push(await toDTO(v));
         res.status(200).send(allVideos);
-    })
+    }
+    catch (err) {
+        res.send(err);
+    }
 }
 
 GetVideoById = (req, res, next) => {
@@ -95,19 +101,21 @@ GetVideoById = (req, res, next) => {
     } 
    */
 
-    hasRole(req.role, 'client', function (decision) {
+    hasRole(req.role, 'client', async function (decision) {
         if (!decision)
-            return res.status(403).send({ msg: `User ${req.body.email} have no authorization.` });
+            return res.status(403).send({ msg: `User ${req.email} have no authorization.` });
         else {
-            videoModel.findById(req.params.id, async function (err, theVideo) {
-                if (err)
-                    res.send(err);
+            try {
+                theVideo = await videoModel.findById(req.params.id).exec();
                 if (theVideo === null) {
                     res.status(204).send([]);
                 } else {
                     res.json(await toDTO(theVideo));
                 }
-            });
+            }
+            catch (err) {
+                res.send(err);
+            }
         }
     });
 }
@@ -130,15 +138,19 @@ DeleteVideoById = (req, res, next) => {
         }
     } 
     */
-    hasRole(req.role, 'manager', function (decision) {
+    hasRole(req.role, 'manager', async function (decision) {
         if (!decision)
-            return res.status(403).send({ msg: `User ${req.body.email} have no authorization.` });
+            return res.status(403).send({ msg: `User ${req.email} have no authorization.` });
         else {
-            videoModel.remove({ _id: req.params.id }, function (err, theVideo) {
-                if (err)
-                    res.send(err);
-                res.json({ msg: `Entity ${req.params.id} deleted successfully.` });
-            });
+            await videoModel.deleteOne({ _id: req.params.id })
+                .then(result => {
+                    if (result.deletedCount == 0) {
+                        res.status(204).json({ msg: `Entity ${req.params.id} doesn't exist.` })
+                    }
+                    else
+                        res.status(200).json({ msg: `Entity ${req.params.id} deleted successfully.` });
+                })
+                .catch((err) => res.send(err));
         }
     });
 }
@@ -171,32 +183,31 @@ RateVideoById = (req, res, next) => {
         }
     } 
     */
-    hasRole(req.role, 'client', function (decision) {
+    hasRole(req.role, 'client', async function (decision) {
         if (!decision)
-            return res.status(403).send({ msg: `User ${req.body.email} have no authorization.` });
+            return res.status(403).send({ msg: `User ${req.email} have no authorization.` });
         else {
-            videoModel.findById(req.params.id, function (err, theVideo) {
-                if (err)
-                    res.send(err);
-
+            try {
+                theVideo = await videoModel.findById(req.params.id).exec();
                 if (theVideo === null)
                     res.status(204).send([]);
 
                 theVideo.rate.push(req.body.rate);
+                theVideo.save()
+                    .then(async () => res.status(200).send(await toDTO(theVideo)))
+                    .catch((err) => res.send(err))
 
-                theVideo.save(async function (err) {
-                    if (err)
-                        res.send(err);
-                    res.status(200).send(await toDTO(theVideo));
-                })
-            })
+            }
+            catch (err) {
+                res.send(err);
+            }
         }
     });
 }
 
 async function toDTO(v) {
     return ({
-        'id': v.id,
+        'id': v._id,
         'title': v.title,
         'sysnopsis': v.sysnopsis,
         'director': v.director,

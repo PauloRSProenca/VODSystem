@@ -6,7 +6,6 @@ var userController = require('../controllers/UserController');
 var VerifyToken = require('../../verifyToken');
 
 require("dotenv-safe").config();
-var jwt = require('jsonwebtoken');
 
 var router = express.Router();
 

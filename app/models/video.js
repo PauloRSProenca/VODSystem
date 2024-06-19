@@ -1,6 +1,6 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
-var idvalidator  = require('mongoose-id-validator');
+//var idvalidator  = require('mongoose-id-validator');
 
 var VideoSchema   = new Schema({
     id: Schema.Types.ObjectId,
@@ -14,6 +14,6 @@ var VideoSchema   = new Schema({
     rate:[{ type: Number, min: 1, max: 5 }]
 });
 
-VideoSchema.plugin(idvalidator);
+//VideoSchema.plugin(idvalidator);
 
 module.exports = mongoose.model('Video', VideoSchema);

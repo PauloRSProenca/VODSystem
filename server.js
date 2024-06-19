@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var config = require('./config');
 var cors = require('cors')
 
+require("dotenv-safe").config();
 
 // MongoDB Connection
 // =============================================================================
@@ -39,7 +40,7 @@ mongoObj.Promise = global.Promise;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 5555;        // set port
+var port = process.env.PORT;   
 
 // Middleware
 // =============================================================================

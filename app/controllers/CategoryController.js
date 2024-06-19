@@ -27,31 +27,29 @@ CreateCategory = (req, res, next) => {
 
     newEntity.name = req.body.name;
 
-    newEntity.save(function (err) {
-        if (err)
-            res.send(err);
-        res.status(201).send({ msg: 'Entity created successfully.' });
-    });
+    newEntity.save()
+        .then( () => res.status(201).send({ msg: 'Entity created successfully.' }))
+        .catch( (err) => res.send(err))
+
 }
 
-GetAllCategories = (req, res, next) => {
+GetAllCategories = async (req, res, next) => {
     /* 
     #swagger.responses[200] = {
         schema: [{ $ref: '#/definitions/Category' }]
     }
     */
-    categoryModel.find(function (err, existingEntities) {
-        if (err)
-            res.send(err);
+    try {
+        existingEntities = await categoryModel.find().exec();
         allCategories = [];
         if (existingEntities.length != 0)
             for (let c of existingEntities)
-                allCategories.push(
-                    { 'name': c.name }
-                );
-
+                allCategories.push({ 'name': c.name });
         res.status(200).send(allCategories);
-    });
+    }
+    catch (error) {
+        res.send(error)
+    }
 }
 
 module.exports = {

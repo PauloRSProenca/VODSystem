@@ -1,4 +1,5 @@
 var express = require('express');
+var jwt = require('jsonwebtoken');
 var UserModel = require('../models/user');
 
 SignUp = (req, res) => {
@@ -31,17 +32,13 @@ SignUp = (req, res) => {
     newuser.role = 'client';
     newuser.password = req.body.password;
 
-    newuser.save(function (err) {
-        if (err) {
-            res.status(400).send(err);
-        }
-        else {
-            res.status(201).send({ msg: `User ${req.body.email} successfully signedup.` });
-        }
-    });
+    newuser.save()
+        .then(() => res.status(201).send({ msg: `User ${req.body.email} successfully signedup.` }))
+        .catch((err) => res.status(400).send(err))
+
 }
 
-SignIn = (req, rep) => {
+SignIn = async (req, res) => {
     /*
         #swagger.requestBody = {
             required: true,
@@ -60,20 +57,24 @@ SignIn = (req, rep) => {
             }
         }  
     */
+    try {
+        theUser = await UserModel.findOne(req.body).exec();
 
-    UserModel.findOne(req.body, function (err, theUser) {
-        if (err)
-            res.send(err);
         if (theUser === null) {
             res.status(401).send([]);
         } else {
             const jwtBearerToken = jwt.sign({ email: req.body.email, role: theUser.role }, process.env.SECRET, { expiresIn: 1800 });
+
             res.status(201).send({
                 role: theUser.role,
                 token: jwtBearerToken
             });
         }
-    })
+    }
+    catch (error) {
+        res.send(error)
+    }
+
 }
 
 GetAllUsers = (req, res) => {
@@ -100,15 +101,17 @@ GetAllUsers = (req, res) => {
         }
     } 
     */
-    hasRole(req.role, 'manager', function (decision) {
+    hasRole(req.role, 'manager', async function (decision) {
         if (!decision)
-            return res.status(403).send({ msg: `User ${req.body.email} have no authorization.` });
+            return res.status(403).send({ msg: `User ${req.email} have no authorization.` });
         else
-            UserModel.find(function (err, existingEntities) {
-                if (err)
-                    res.send(err);
+            try{
+                existingEntities = await UserModel.find().exec();
                 res.status(200).send(existingEntities);
-            })
+            }
+            catch(err) {
+                res.send(err);
+            }
     })
 }
 
